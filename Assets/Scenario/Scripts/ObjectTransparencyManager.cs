@@ -32,10 +32,12 @@ public class ObjectTransparencyManager : MonoBehaviour
         if (transparent)
         {
             renderer.material = transparentMaterial;
+            //gameObject.layer = 12;
         }
         else
         { 
             renderer.material = opaqueMaterial;
+            //gameObject.layer = 8;
         }
     }
 }

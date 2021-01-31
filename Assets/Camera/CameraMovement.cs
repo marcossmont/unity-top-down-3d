@@ -18,10 +18,8 @@ public class CameraMovement : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        var calculatedSpeed = speed * Time.deltaTime;
-
         Vector3 targetPosition = follow.position + followOffset;
-        Vector3 smoothedPosition = Vector3.Lerp(transform.position, targetPosition, calculatedSpeed);
+        Vector3 smoothedPosition = Vector3.Lerp(transform.position, targetPosition, speed * Time.deltaTime);
         transform.position = smoothedPosition;
     }
 }
