@@ -53,13 +53,13 @@ public class PlayerHealth : MonoBehaviour
     {
         _isDead = true;
 
-        _playerShooting.DisableEffects();
+        //_playerShooting.DisableEffects();
 
         _playerMovement.enabled = false;
         _playerRotation.enabled = false;
-        _playerShooting.enabled = false;
+        //_playerShooting.enabled = false;
 
-        RestartLevel();
+        //RestartLevel();
     }
 
 

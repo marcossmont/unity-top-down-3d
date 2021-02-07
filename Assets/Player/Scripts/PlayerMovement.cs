@@ -6,12 +6,14 @@ using UnityEngine.AI;
 
 public class PlayerMovement : MonoBehaviour
 {
-    //public CharacterController controller;
-    public NavMeshAgent _navMeshAgent;
-    public bool isWalking;
+    public bool IsWalking { get => _isWalking; }
+    private bool _isWalking;
 
+    private NavMeshAgent _navMeshAgent;
     private InputManager _input;
     private Camera _camera;
+
+    public Vector3 TargetVector { get; private set; }
 
     void Awake()
     {
@@ -27,14 +29,14 @@ public class PlayerMovement : MonoBehaviour
         if (_input.InputVector.magnitude > 0)
         {            
             var cameraRotationPosition = Quaternion.Euler(0, _camera.gameObject.transform.rotation.eulerAngles.y, 0);
-            var targetVector = new Vector3(_input.InputVector.x, 0, _input.InputVector.y);
-            var cameraRelativeTargetVector = cameraRotationPosition * targetVector;
+            TargetVector = new Vector3(_input.InputVector.x, 0, _input.InputVector.y);
+            var cameraRelativeTargetVector = cameraRotationPosition * TargetVector;
             _navMeshAgent.Move(cameraRelativeTargetVector * _navMeshAgent.speed * Time.deltaTime);
 
-            isWalking = true;
+            _isWalking = true;
             return;  
         }
 
-        isWalking = false;
+        _isWalking = false;
     }
 }
