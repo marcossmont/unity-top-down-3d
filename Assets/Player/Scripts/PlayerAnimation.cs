@@ -9,7 +9,10 @@ public class PlayerAnimation : MonoBehaviour
     private PlayerHealth _playerHealth;
     private Animator _animator;
     
-    public float Diff;
+    public float rotationTolerance = 0.1f;
+
+    [SerializeField]
+    private float rotationAngle;
 
     // Start is called before the first frame update
     void Awake()
@@ -30,5 +33,6 @@ public class PlayerAnimation : MonoBehaviour
         _animator.SetBool("IsDead", _playerHealth.IsDead);
         _animator.SetFloat("VerticalAxisVelocity", playerRelativeTargetVector.z);
         _animator.SetFloat("HorizontelAxisVelocity", playerRelativeTargetVector.x);
+        _animator.SetFloat("RotationAngle", _playerRotation.RotationAngle);
     }
 }

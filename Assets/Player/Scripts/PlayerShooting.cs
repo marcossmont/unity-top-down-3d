@@ -13,17 +13,18 @@ public class PlayerShooting : MonoBehaviour
     private float _timer;
     private float _effectsDisplayTime = 0.2f;
     private int _shootableMask;
-    private LineRenderer _gunLine;
     private InputManager _input;
     private Camera _camera;
+    private ParticleSystem _gunParticles;
+    private Light _gunLight;
 
     void Awake()
     {
-        _shootableMask = LayerMask.GetMask("Floor", "Enemies");
-        //_shootableMask = LayerMask.GetMask("Floor", "Walls", "Enemies");
-        _gunLine = GetComponent<LineRenderer>();
+        _shootableMask = LayerMask.GetMask("Floor", "Walls", "Enemies");
         _input = GameObject.FindWithTag("InputManager")?.GetComponent<InputManager>() ?? throw new Exception("Can not find InputManager component.");
         _camera = GameObject.FindWithTag("MainCamera")?.GetComponent<Camera>() ?? throw new Exception("Can not find Camera component.");
+        _gunParticles = GetComponent<ParticleSystem>();
+        _gunLight = GetComponent<Light>();
     }
 
 
@@ -45,7 +46,7 @@ public class PlayerShooting : MonoBehaviour
 
     public void DisableEffects()
     {
-        _gunLine.enabled = false;
+        _gunLight.enabled = false;
     }
 
 
@@ -53,8 +54,10 @@ public class PlayerShooting : MonoBehaviour
     {
         _timer = 0f;
 
-        _gunLine.enabled = true;
-        _gunLine.SetPosition(0, transform.position);
+        _gunParticles.Stop();
+        _gunParticles.Play();
+        _gunLight.enabled = true;
+
         Ray ray = _camera.ScreenPointToRay(_input.MousePosition);
 
         if (Physics.Raycast(ray, out RaycastHit hitInfo, maxDistance: 300f, layerMask: _shootableMask))
@@ -70,13 +73,8 @@ public class PlayerShooting : MonoBehaviour
                 EnemyHealth enemyHealth = shootHit.collider.GetComponent<EnemyHealth>();
                 if (enemyHealth != null)
                 {
-                    enemyHealth.TakeDamage(damagePerShot);
+                    enemyHealth.TakeDamage(damagePerShot, shootHit.point);
                 }
-                _gunLine.SetPosition(1, shootHit.point);
-            }
-            else
-            {
-                _gunLine.SetPosition(1, shootRay.origin + shootRay.direction * range);
             }
         }        
     }

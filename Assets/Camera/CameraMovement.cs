@@ -14,6 +14,7 @@ public class CameraMovement : MonoBehaviour
     void Awake()
     {
         _follow = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
+        transform.position = _follow.position + followOffset;
     }
 
     // Update is called once per frame

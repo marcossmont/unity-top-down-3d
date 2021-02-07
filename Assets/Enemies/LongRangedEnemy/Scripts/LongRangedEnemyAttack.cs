@@ -28,9 +28,6 @@ public class LongRangedEnemyAttack : MonoBehaviour
 
     void Update()
     {
-        //Ray ray = new Ray(transform.position, _player.transform.position - transform.position);
-        //Debug.DrawLine(transform.position, ray.GetPoint(range));
-
         _timer += Time.deltaTime;
 
         if (_timer >= timeBetweenAttacks) //&& enemyHealth.currentHealth > 0)
@@ -39,7 +36,6 @@ public class LongRangedEnemyAttack : MonoBehaviour
 
             if (Physics.Raycast(transform.position, direction, out var hit, maxDistance: range, layerMask: _playerLayer))
             {
-                
                 Attack(hit);
             }            
         }
